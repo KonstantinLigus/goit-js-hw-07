@@ -13,19 +13,24 @@ const galleryRender = galleryItems
 
 gallery.innerHTML = galleryRender;
 
-gallery.addEventListener("click", onImgClic);
+gallery.onclick = () => {
+  basicLightbox
+    .create(`<img src="${event.target.dataset.src}" alt="${event.target.alt}">`)
+    .show();
+};
 
-function onImgClic(event) {
-  if (event.target.nodeName !== "IMG") {
-    return;
-  }
-  // event.target.src = event.target.dataset.src;
-  event.target.onclick = () => {
-    basicLightbox
-      .create(
-        `<img src="${original}" data-src="${original}" alt="${description}">`
-      )
-      .show();
-  };
-}
+// gallery.addEventListener("click", onImgClic);
+
+// function onImgClic(event) {
+//   if (event.target.nodeName !== "IMG") {
+//     return;
+//   }
+//   event.target.onclick = () => {
+//     basicLightbox
+//       .create(
+//         `<img src="${event.target.dataset.src}" alt="${event.target.alt}">`
+//       )
+//       .show();
+//   };
+// }
 // console.log(gallery);
