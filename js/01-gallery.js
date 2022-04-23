@@ -1,36 +1,40 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 // console.log(galleryItems);
-
-const gallery = document.querySelector(".gallery");
-
-const galleryRender = galleryItems
-  .map(
-    ({ preview, original, description }) =>
-      `<img src="${preview}" data-src="${original}" alt="${description}">`
-  )
-  .join("");
-
-gallery.innerHTML = galleryRender;
-
-gallery.onclick = () => {
-  basicLightbox
-    .create(`<img src="${event.target.dataset.src}" alt="${event.target.alt}">`)
-    .show();
+const refs = {
+  gallery: document.querySelector(".gallery"),
 };
+function galleryRender(galleryItems) {
+  refs.gallery.innerHTML = galleryItems
+    .map(
+      ({ preview, original, description }) =>
+        `<div class="gallery__item"><a class="gallery__link" href="${original}"><img src="${preview}" data-source="${original}" alt="${description}"/></a></div>`
+    )
+    .join("");
+}
 
-// gallery.addEventListener("click", onImgClic);
+refs.gallery.addEventListener("click", onImgClic);
 
-// function onImgClic(event) {
-//   if (event.target.nodeName !== "IMG") {
-//     return;
-//   }
-//   event.target.onclick = () => {
-//     basicLightbox
-//       .create(
-//         `<img src="${event.target.dataset.src}" alt="${event.target.alt}">`
-//       )
-//       .show();
-//   };
-// }
-// console.log(gallery);
+function onImgClic(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+  const imgInstance = basicLightbox.create(
+    `<img src="${event.target.dataset.source}" alt="${event.target.alt}"/>`
+  );
+  event.target.onclick = imgInstance.show();
+
+  window.addEventListener("keydown", imgInstanceClose);
+  function imgInstanceClose(event) {
+    if (event.code === "Escape") {
+      window.removeEventListener("keydown", imgInstanceClose);
+      imgInstance.close();
+    }
+  }
+  if (!basicLightbox.visible()) {
+    window.removeEventListener("keydown", imgInstanceClose);
+  }
+}
+
+galleryRender(galleryItems);
