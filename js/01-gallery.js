@@ -21,7 +21,12 @@ function onImgClic(event) {
     return;
   }
   const imgInstance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}" alt="${event.target.alt}"/>`
+    `<img src="${event.target.dataset.source}" alt="${event.target.alt}"/>`,
+    {
+      onClose: (i) => {
+        window.removeEventListener("keydown", imgInstanceClose);
+      },
+    }
   );
   event.target.onclick = imgInstance.show();
 
@@ -31,9 +36,6 @@ function onImgClic(event) {
       window.removeEventListener("keydown", imgInstanceClose);
       imgInstance.close();
     }
-  }
-  if (!basicLightbox.visible()) {
-    window.removeEventListener("keydown", imgInstanceClose);
   }
 }
 
