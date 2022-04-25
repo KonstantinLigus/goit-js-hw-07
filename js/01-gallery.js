@@ -23,19 +23,19 @@ function onImgClic(event) {
   const imgInstance = basicLightbox.create(
     `<img src="${event.target.dataset.source}" alt="${event.target.alt}"/>`,
     {
-      onClose: (i) => {
+      onClose: () => {
         window.removeEventListener("keydown", imgInstanceClose);
       },
     }
   );
   event.target.onclick = imgInstance.show();
-
   window.addEventListener("keydown", imgInstanceClose);
-  function imgInstanceClose(event) {
-    if (event.code === "Escape") {
-      window.removeEventListener("keydown", imgInstanceClose);
-      imgInstance.close();
-    }
+}
+
+function imgInstanceClose(event) {
+  if (event.code === "Escape") {
+    window.removeEventListener("keydown", imgInstanceClose);
+    imgInstance.close();
   }
 }
 
