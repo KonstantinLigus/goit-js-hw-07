@@ -11,10 +11,13 @@ function galleryRender(galleryItems) {
     (acc, { preview, original, description } = galleryItems) =>
       acc +
       `<a class="gallery__item" href=${original}>
-<img class="gallery__image" src="${preview}" alt=${description} />
+<img class="gallery__image" src="${preview}" alt=${description}/>
 </a>`,
     ""
   );
 }
 galleryRender(galleryItems);
-console.log(refs.gallery);
+const galleryRide = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
